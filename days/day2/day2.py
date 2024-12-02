@@ -1,9 +1,12 @@
 with open('days/day2/input.txt') as f:
-    levels = []
-    for line in f:
-        levels.append(list(map(int, line.strip().split(' '))))
+    levels = [[int(element) for element in line.strip().split(' ')] for line in f]
+
 
 def check_safe(arr: list) -> bool:
+    def check_diff(a, b):
+        diff = abs(a - b)
+        return 1 <= diff <= 3
+    
     if arr == sorted(arr) or arr == sorted(arr, reverse=True):
         for i in range(0, len(arr)):
             if i == len(arr) - 1:
@@ -13,18 +16,15 @@ def check_safe(arr: list) -> bool:
         return True
     return False
 
-def check_diff(a, b):
-    diff = abs(a - b)
-    return 1 <= diff <= 3
 
 safe_reports = 0
 for level in levels:
     if check_safe(level):
-        print(level)
         safe_reports += 1
 
 # Part 1 answer
-print(safe_reports)
+print('Part 1 answer:', safe_reports)
+
 
 def check_safe_damper(arr: list) -> bool:
     if check_safe(arr):
@@ -41,8 +41,7 @@ def check_safe_damper(arr: list) -> bool:
 safe_reports_damper = 0
 for level in levels:
     if check_safe_damper(level):
-        print(level)
         safe_reports_damper += 1
 
 # Part 2 answer
-print(safe_reports_damper)
+print('Part 2 answer:', safe_reports_damper)

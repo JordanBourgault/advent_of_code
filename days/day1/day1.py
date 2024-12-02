@@ -1,28 +1,18 @@
-from collections import Counter
-
 with open('days/day1/input.txt') as f:
-    line_a = []
-    line_b = []
-    for line in f:
-        lines = line.strip().split('   ')
-        line_a.append(int(lines[0]))
-        line_b.append(int(lines[1]))
+    data = [*map(int, f.read().split())]
+    line_a, line_b = sorted(data[0::2]), sorted(data[1::2])
 
-line_a.sort()
-line_b.sort()
 
 total_distance = 0
 for i in range(0, len(line_a)):
     total_distance += abs(line_b[i] - line_a[i])
 
 # Part 1
-print(total_distance)
+print('Part 1 solution:', total_distance)
 
-counter = Counter(line_b)
 similarity = 0
 for num in line_a:
-    occurence_num = counter.get(num, 0)
-    similarity += num * occurence_num
+    similarity += num * line_b.count(num)
 
 # Part 2
-print(similarity)
+print('Part 2 solution:', similarity)
