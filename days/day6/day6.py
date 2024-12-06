@@ -64,6 +64,7 @@ def count_positions(grid):
 grid = deepcopy(data)
 initial_moves_grid = move_guard(grid)
 print('Part1:', count_positions(initial_moves_grid))
+print(datetime.now() - startTime)
 
 
 def get_indexes(grid):
