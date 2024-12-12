@@ -3,14 +3,14 @@ from collections import defaultdict
 with open('2024/day12/input.txt') as f:
     data = [[col for col in row.strip()] for row in f]
 
-def get_neighbours(coord):
+def get_neighbors(coord):
     return [coord+1, coord-1, coord+1j, coord-1j]
 
 plot_dict = defaultdict(lambda:[])
 for row_num, row in enumerate(data):
     for col_num, col in enumerate(row):
         coord = complex(row_num, col_num)
-        neihgbours = get_neighbours(coord)
+        neihgbours = get_neighbors(coord)
         matched = None
         added = False
         i = 0
@@ -29,9 +29,8 @@ for row_num, row in enumerate(data):
         if not added:
             plot_dict[col].append(set([coord]))
 
-
-def get_num_neighbours(coord, plot):
-    return sum([1 if neighbour in plot else 0 for neighbour in get_neighbours(coord)])
+def get_num_neighbors(coord, plot):
+    return sum([1 if neighbour in plot else 0 for neighbour in get_neighbors(coord)])
 
 def get_range(plot:complex):
     real = [int(p.real) for p in plot]
@@ -49,11 +48,11 @@ def scan_sides(plot):
             if coord in plot:
                 if (coord - 1) not in plot:
                     up_row.add(coord)
-                    if not get_num_neighbours(complex(row, col), up_row):
+                    if not get_num_neighbors(complex(row, col), up_row):
                         num_sides += 1
                 if (coord + 1) not in plot:
                     down_row.add(coord)
-                    if not get_num_neighbours(complex(row, col), down_row):
+                    if not get_num_neighbors(complex(row, col), down_row):
                         num_sides += 1
 
     for col in range(*col_range):
@@ -64,11 +63,11 @@ def scan_sides(plot):
             if coord in plot:
                 if (coord - 1j) not in plot:
                     left_col.add(coord)
-                    if not get_num_neighbours(complex(row, col), left_col):
+                    if not get_num_neighbors(complex(row, col), left_col):
                         num_sides += 1
                 if (coord + 1j) not in plot:
                     right_col.add(coord)
-                    if not get_num_neighbours(complex(row, col), right_col):
+                    if not get_num_neighbors(complex(row, col), right_col):
                         num_sides += 1
     return num_sides
 
@@ -79,8 +78,8 @@ for key, values in plot_dict.items():
     for plot in values:
         fence_len = 0
         for value in plot:
-            num_neighbours = get_num_neighbours(value, plot)
-            fence_len += 4 - num_neighbours
+            num_neighbors = get_num_neighbors(value, plot)
+            fence_len += 4 - num_neighbors
         total += len(plot) * fence_len
         total_bulk += len(plot) * scan_sides(plot)
         # print(key, len(plot), fence_len, scan_sides(plot))
