@@ -1,4 +1,5 @@
 from collections import defaultdict
+from bisect import bisect
 
 grid_size = 71
 grid = defaultdict(lambda: '#')
@@ -23,12 +24,10 @@ def bfs(num_bytes = 1024):
             if grid[move] != '#' and move not in bytes and move not in seen:
                 seen.add(move)
                 queue.append((dist + 1, t := t+1, move))
-    return False
+    return grid_size**2
 
 print('Part 1:', bfs())
 
-for num_byte in range(1024, len(data)):
-    if not bfs(num_byte):
-        byte = data[num_byte-1]
-        print('Part 2:', f'{int(byte.real)},{int(byte.imag)}')
-        break
+# Use binary search instead of iteration to find when the path cannot be completed anymore
+stop = data[bisect(range(len(data)), grid_size**2-1, key=bfs)-1]
+print('Part 2:', stop)

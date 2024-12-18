@@ -6,6 +6,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-y', '--year', help='Specify year to fetch', type=int)
 parser.add_argument('-d', '--day', help='Specify day to fetch', type=int)
 args = parser.parse_args()
+session = open('session').read()
 
 
 _, top_level_dirs, _ = next(os.walk('./'))
@@ -30,7 +31,8 @@ with open(f'day{day_to_process}.py', 'w') as f:
 
 
 with open('input.txt', 'w') as f:
-    pass
+    res = requests.get(f'https://adventofcode.com/{year_to_process}/day/{day_to_process}/input', cookies={'session': session})
+    f.write(res.content.decode())
 
 with open('input_test.txt', 'w') as f:
     pass
